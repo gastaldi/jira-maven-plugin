@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<issueManagement>
+		<system>jira</system>
+		<url>https://issues.jboss.org/browse/RF</url>
+	</issueManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.george.app</groupId>
+				<artifactId>maven-jira-plugin</artifactId>
+				<version>1.2-SNAPSHOT</version>
+				<inherited>false</inherited>
+				<configuration>
+					<beforeText>${project.version}\n==============================</beforeText>
+					<afterText>==============================</afterText>
+					<jiraURL>https://issues.jboss.org</jiraURL>
+					<jiraUser>guest</jiraUser>
+					<jiraPassword>anonymous</jiraPassword>
+					<settingsKey>jira</settingsKey>
+					<jiraProjectKey>RF</jiraProjectKey>
+					<releaseVersion>3.3.2.SR1</releaseVersion>
+					<targetFile>target/releaseNotes.txt</targetFile>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
