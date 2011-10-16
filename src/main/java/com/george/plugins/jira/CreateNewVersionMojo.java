@@ -3,6 +3,7 @@ package com.george.plugins.jira;
 import java.util.Comparator;
 
 import org.apache.maven.plugin.logging.Log;
+import org.codehaus.plexus.util.StringUtils;
 
 import com.atlassian.jira.rpc.soap.client.JiraSoapService;
 import com.atlassian.jira.rpc.soap.client.RemoteVersion;
@@ -28,6 +29,18 @@ public class CreateNewVersionMojo extends AbstractJiraMojo {
 	String developmentVersion;
 
 	/**
+	 * @parameter default-value="${project.build.finalName}"
+	 */
+	String finalName;
+	
+	/**
+	 * Whether the final name is to be used for the version; defaults to false.
+	 * 
+	 * @parameter expression="${finalNameUsedForVersion}"
+	 */
+	boolean finalNameUsedForVersion;
+	
+	/**
 	 * Comparator for discovering the latest release
 	 * 
 	 * @parameter 
@@ -42,9 +55,15 @@ public class CreateNewVersionMojo extends AbstractJiraMojo {
 		log.debug("Login Token returned: " + loginToken);
 		RemoteVersion[] versions = jiraService.getVersions(loginToken,
 				jiraProjectKey);
-		// Removing -SNAPSHOT suffix for safety
-		String newDevVersion = developmentVersion.replace("-SNAPSHOT",
-				"");
+		String newDevVersion;
+		if (finalNameUsedForVersion) {
+			newDevVersion = finalName;
+		} else {
+			newDevVersion = developmentVersion;
+		}
+		// Removing -SNAPSHOT suffix for safety and sensible formatting
+		newDevVersion = StringUtils.capitaliseAllWords(
+				newDevVersion.replace("-SNAPSHOT", "").replace("-", " "));
 		boolean versionExists = isVersionAlreadyPresent(versions,
 				newDevVersion);
 		if (!versionExists) {

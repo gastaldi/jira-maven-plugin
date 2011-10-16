@@ -77,6 +77,54 @@ public class CreateNewVersionMojoTest {
 		jiraVersionMojo.execute();
 	}
 	
+	@Test
+	public void testExecuteWithNewDevVersionIncludingQualifierAndSnapshot() throws Exception {
+		jiraVersionMojo.developmentVersion = "5.0-beta-2-SNAPSHOT";
+		doLoginBehavior();
+		// Chama o getVersions
+		expect(
+				jiraStub.getVersions(LOGIN_TOKEN,
+						jiraVersionMojo.jiraProjectKey)).andReturn(VERSIONS)
+				.once();
+
+		// Adiciona a nova versao
+		expect(
+				jiraStub.addVersion(LOGIN_TOKEN,
+						jiraVersionMojo.jiraProjectKey, new RemoteVersion(null,
+								"5.0 Beta 2", false,
+								null, false, null))).andReturn(VERSIONS[0]);
+		doLogoutBehavior();
+		// Habilita o controle para inicio dos testes
+		EasyMock.replay(jiraStub);
+
+		jiraVersionMojo.execute();
+	}
+	
+	@Test
+	public void testExecuteWithNewDevVersionAndUseFinalNameForVersionSetToTrue() throws Exception {
+		jiraVersionMojo.developmentVersion = "5.0-beta-2-SNAPSHOT";
+		jiraVersionMojo.finalNameUsedForVersion = true;
+		jiraVersionMojo.finalName = "my-component-5.0-beta-2-SNAPSHOT";
+		doLoginBehavior();
+		// Chama o getVersions
+		expect(
+				jiraStub.getVersions(LOGIN_TOKEN,
+						jiraVersionMojo.jiraProjectKey)).andReturn(VERSIONS)
+				.once();
+
+		// Adiciona a nova versao
+		expect(
+				jiraStub.addVersion(LOGIN_TOKEN,
+						jiraVersionMojo.jiraProjectKey, new RemoteVersion(null,
+								"My Component 5.0 Beta 2", false,
+								null, false, null))).andReturn(VERSIONS[0]);
+		doLogoutBehavior();
+		// Habilita o controle para inicio dos testes
+		EasyMock.replay(jiraStub);
+
+		jiraVersionMojo.execute();
+	}
+	
 	/**
 	 * Test method for {@link ReleaseVersionMojo#execute()}
 	 * 
