@@ -4,8 +4,8 @@ This Maven plugin allows performing of JIRA common actions, like releasing a ver
 
 Before you start using this plugin, you must have two configurations already set on your pom.xml:
 
-- <issueManagement> tag 
-e.g.: 
+- <issueManagement> tag
+e.g.:
 <issueManagement>
 	<system>JIRA</system>
 	<url>http://www.myjira.com/jira/browse/PROJECTKEY</url>
@@ -13,7 +13,7 @@ e.g.:
 
 Note: This is extremely important, as will use this information to connect on JIRA.
 
-- <server> entry in settings.xml with the authentication information 
+- <server> entry in settings.xml with the authentication information
 
 
 Also, make sure your JIRA has SOAP access enabled.
@@ -78,5 +78,4 @@ Place it on your pom.xml:
 		</execution>
 	</executions>
 </plugin>
-		
-		
+
