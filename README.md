@@ -7,21 +7,35 @@ This Maven plugin allows performing of JIRA common actions, like releasing a ver
 
 Before you start using this plugin, you must have two configurations already set on your pom.xml:
 
-- <issueManagement> tag
-e.g.:
-    <issueManagement>
-        <system>JIRA</system>
-        <url>http://www.myjira.com/jira/browse/PROJECTKEY</url>
-    </issueManagement>
+issueManagement tag
+=====================
+
+        <issueManagement>
+           <system>JIRA</system>
+           <url>http://www.myjira.com/jira/browse/PROJECTKEY</url>
+        </issueManagement>
 
 Note: This is extremely important, as will use this information to connect on JIRA.
 
-- <server> entry in settings.xml with the authentication information
+<server> entry in settings.xml with the authentication information
+=====================
+
+Put the following in the settings.xml file: 
+
+    <servers>
+        <server>
+            <id>jira</id>
+            <username>your_user</username>
+            <password>your_password</password>
+        </server>
+    </servers>
+
 
 Also, make sure your JIRA has SOAP access enabled.
 
 
-- release-jira-version goal
+release-jira-version goal
+=====================
 
 Add the following profile to be executed when released:
 
@@ -57,7 +71,10 @@ Add the following profile to be executed when released:
 	    </build>
     </profile>
 
-- create-new-version: Creates a new JIRA version of this project (without the -SNAPSHOT suffix)
+create-new-version
+=====================
+
+Creates a new JIRA version of this project (without the -SNAPSHOT suffix)
 
 Place it on your pom.xml:
 
