@@ -7,6 +7,9 @@ This Maven plugin allows performing of JIRA common actions, like releasing a ver
 
 Before you start using this plugin, you must have two configurations already set on your pom.xml:
 
+
+NOTE: This plugin is not installed in any Maven repository, so you must build and install locally before using it.
+
 issueManagement tag
 =====================
 
