@@ -75,10 +75,11 @@ public abstract class AbstractJiraMojo extends AbstractMojo {
 
 	/**
 	 * Returns if this plugin is enabled for this context
+	 * 
 	 * @parameter expression="${skip}"
 	 */
 	protected boolean skip;
-	
+
 	/**
 	 * Returns the stub needed to invoke the WebService
 	 * 
@@ -86,8 +87,8 @@ public abstract class AbstractJiraMojo extends AbstractMojo {
 	 * @throws MalformedURLException
 	 * @throws ServiceException
 	 */
-	protected JiraSoapService getJiraSoapService() throws MalformedURLException,
-			ServiceException {
+	protected JiraSoapService getJiraSoapService()
+			throws MalformedURLException, ServiceException {
 		if (jiraService == null) {
 			JiraSoapServiceServiceLocator locator = new JiraSoapServiceServiceLocator();
 			String url = discoverJiraWSURL();
@@ -96,7 +97,7 @@ public abstract class AbstractJiraMojo extends AbstractMojo {
 						"JIRA URL cound not be found. Check your pom.xml configuration.");
 			URL u = new URL(url);
 			jiraService = locator.getJirasoapserviceV2(u);
-		} 
+		}
 		return jiraService;
 	}
 
@@ -119,14 +120,14 @@ public abstract class AbstractJiraMojo extends AbstractMojo {
 				if (lastPath == -1) {
 					lastPath = jiraURL.length();
 				}
-				jiraProjectKey = jiraURL.substring(projectIdx + 8,lastPath);
-				url = jiraURL.substring(0,projectIdx) + JIRA_SOAP_SUFFIX;
+				jiraProjectKey = jiraURL.substring(projectIdx + 8, lastPath);
+				url = jiraURL.substring(0, projectIdx) + JIRA_SOAP_SUFFIX;
 			} else {
 				url = jiraURL + JIRA_SOAP_SUFFIX;
 			}
 		}
 		return url;
-	}	
+	}
 
 	/**
 	 * Load username password from settings if user has not set them in JVM
@@ -150,8 +151,10 @@ public abstract class AbstractJiraMojo extends AbstractMojo {
 			}
 		}
 	}
-	
-	public final void execute() throws MojoExecutionException, MojoFailureException {
+
+	@Override
+	public final void execute() throws MojoExecutionException,
+			MojoFailureException {
 		Log log = getLog();
 		if (isSkip()) {
 			log.info("Skipping Plugin execution.");
@@ -175,8 +178,9 @@ public abstract class AbstractJiraMojo extends AbstractMojo {
 			// XXX: Por enquanto nao faz nada.
 		}
 	}
-	
-	public abstract void doExecute(JiraSoapService jiraService, String loginToken) throws Exception;
+
+	public abstract void doExecute(JiraSoapService jiraService,
+			String loginToken) throws Exception;
 
 	public boolean isSkip() {
 		return skip;

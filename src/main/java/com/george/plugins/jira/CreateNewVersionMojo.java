@@ -32,14 +32,14 @@ public class CreateNewVersionMojo extends AbstractJiraMojo {
 	 * @parameter default-value="${project.build.finalName}"
 	 */
 	String finalName;
-	
+
 	/**
 	 * Whether the final name is to be used for the version; defaults to false.
 	 * 
 	 * @parameter expression="${finalNameUsedForVersion}"
 	 */
 	boolean finalNameUsedForVersion;
-	
+
 	/**
 	 * Comparator for discovering the latest release
 	 * 
@@ -62,28 +62,23 @@ public class CreateNewVersionMojo extends AbstractJiraMojo {
 			newDevVersion = developmentVersion;
 		}
 		// Removing -SNAPSHOT suffix for safety and sensible formatting
-		newDevVersion = StringUtils.capitaliseAllWords(
-				newDevVersion.replace("-SNAPSHOT", "").replace("-", " "));
-		boolean versionExists = isVersionAlreadyPresent(versions,
-				newDevVersion);
+		newDevVersion = StringUtils.capitaliseAllWords(newDevVersion.replace(
+				"-SNAPSHOT", "").replace("-", " "));
+		boolean versionExists = isVersionAlreadyPresent(versions, newDevVersion);
 		if (!versionExists) {
 			RemoteVersion newVersion = new RemoteVersion();
-			log.debug("New Development version in JIRA is: "
-					+ newDevVersion);
+			log.debug("New Development version in JIRA is: " + newDevVersion);
 			newVersion.setName(newDevVersion);
-			jiraService.addVersion(loginToken, jiraProjectKey,
-					newVersion);
+			jiraService.addVersion(loginToken, jiraProjectKey, newVersion);
 			log.info("Version created in JIRA for project key "
 					+ jiraProjectKey + " : " + newDevVersion);
 		} else {
-			log
-					.warn(String
-							.format(
-									"Version %s is already created in JIRA. Nothing to do.",
-									newDevVersion));
+			log.warn(String.format(
+					"Version %s is already created in JIRA. Nothing to do.",
+					newDevVersion));
 		}
 	}
-	
+
 	/**
 	 * Check if version is already present on array
 	 * 

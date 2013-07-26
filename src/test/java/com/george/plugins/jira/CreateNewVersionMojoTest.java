@@ -26,11 +26,11 @@ import com.atlassian.jira.rpc.soap.client.RemoteVersion;
 public class CreateNewVersionMojoTest {
 
 	private static final String LOGIN_TOKEN = "TEST_TOKEN";
-	private static final RemoteVersion[] VERSIONS = new RemoteVersion[] {
+	private static final RemoteVersion[] VERSIONS = new RemoteVersion[]{
 			new RemoteVersion("1", "1.0", false, null, false, null),
 			new RemoteVersion("2", "2.0", false, null, false, null),
 			new RemoteVersion("3", "3.0", false, null, false, null),
-			new RemoteVersion("3", "3.1", false, null, false, null) };
+			new RemoteVersion("3", "3.1", false, null, false, null)};
 
 	private CreateNewVersionMojo jiraVersionMojo;
 	private JiraSoapService jiraStub;
@@ -76,9 +76,10 @@ public class CreateNewVersionMojoTest {
 
 		jiraVersionMojo.execute();
 	}
-	
+
 	@Test
-	public void testExecuteWithNewDevVersionIncludingQualifierAndSnapshot() throws Exception {
+	public void testExecuteWithNewDevVersionIncludingQualifierAndSnapshot()
+			throws Exception {
 		jiraVersionMojo.developmentVersion = "5.0-beta-2-SNAPSHOT";
 		doLoginBehavior();
 		// Chama o getVersions
@@ -91,17 +92,18 @@ public class CreateNewVersionMojoTest {
 		expect(
 				jiraStub.addVersion(LOGIN_TOKEN,
 						jiraVersionMojo.jiraProjectKey, new RemoteVersion(null,
-								"5.0 Beta 2", false,
-								null, false, null))).andReturn(VERSIONS[0]);
+								"5.0 Beta 2", false, null, false, null)))
+				.andReturn(VERSIONS[0]);
 		doLogoutBehavior();
 		// Habilita o controle para inicio dos testes
 		EasyMock.replay(jiraStub);
 
 		jiraVersionMojo.execute();
 	}
-	
+
 	@Test
-	public void testExecuteWithNewDevVersionAndUseFinalNameForVersionSetToTrue() throws Exception {
+	public void testExecuteWithNewDevVersionAndUseFinalNameForVersionSetToTrue()
+			throws Exception {
 		jiraVersionMojo.developmentVersion = "5.0-beta-2-SNAPSHOT";
 		jiraVersionMojo.finalNameUsedForVersion = true;
 		jiraVersionMojo.finalName = "my-component-5.0-beta-2-SNAPSHOT";
@@ -116,15 +118,15 @@ public class CreateNewVersionMojoTest {
 		expect(
 				jiraStub.addVersion(LOGIN_TOKEN,
 						jiraVersionMojo.jiraProjectKey, new RemoteVersion(null,
-								"My Component 5.0 Beta 2", false,
-								null, false, null))).andReturn(VERSIONS[0]);
+								"My Component 5.0 Beta 2", false, null, false,
+								null))).andReturn(VERSIONS[0]);
 		doLogoutBehavior();
 		// Habilita o controle para inicio dos testes
 		EasyMock.replay(jiraStub);
 
 		jiraVersionMojo.execute();
 	}
-	
+
 	/**
 	 * Test method for {@link ReleaseVersionMojo#execute()}
 	 * 
@@ -135,16 +137,17 @@ public class CreateNewVersionMojoTest {
 		jiraVersionMojo.developmentVersion = "2.0";
 		doLoginBehavior();
 		// Chama o getVersions
-		expect(jiraStub.getVersions(LOGIN_TOKEN, jiraVersionMojo.jiraProjectKey)).andReturn(
-				VERSIONS).once();
-		
+		expect(
+				jiraStub.getVersions(LOGIN_TOKEN,
+						jiraVersionMojo.jiraProjectKey)).andReturn(VERSIONS)
+				.once();
+
 		doLogoutBehavior();
 		// Habilita o controle para inicio dos testes
 		replay(jiraStub);
 
 		jiraVersionMojo.execute();
 	}
-	
 
 	/**
 	 * Set up logout mock behavior

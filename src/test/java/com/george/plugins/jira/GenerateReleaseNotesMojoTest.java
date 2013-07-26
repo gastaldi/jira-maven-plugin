@@ -1,25 +1,32 @@
 package com.george.plugins.jira;
 
+import java.io.File;
+
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.apache.maven.wagon.util.FileUtils;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class GenerateReleaseNotesMojoTest extends AbstractMojoTestCase {
 
 	private GenerateReleaseNotesMojo mojo;
-	 
+
+	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		
-		mojo = (GenerateReleaseNotesMojo) lookupMojo("generate-release-notes", "src/test/resources/GenerateReleaseNotesMojoTest.xml");
+
+		mojo = (GenerateReleaseNotesMojo) lookupMojo("generate-release-notes",
+				"src/test/resources/GenerateReleaseNotesMojoTest.xml");
 	}
 
 	@Ignore
 	@Test
 	public void testDoExecute() throws Exception {
 		mojo.execute();
-		assertTrue("Release Notes not generated",FileUtils.fileExists("target/releaseNotes.txt"));
+		assertTrue("Release Notes not generated", new File(
+				"target/releaseNotes.txt").exists());
 	}
 
 }

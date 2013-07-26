@@ -24,20 +24,22 @@ import com.atlassian.jira.rpc.soap.client.RemoteVersion;
 
 /**
  * JUnit test case for Jira version MOJO
+ * 
  * @author george
  * 
  */
 public class ReleaseVersionMojoTest {
 
 	private static final String LOGIN_TOKEN = "TEST_TOKEN";
-	private static final RemoteVersion[] VERSIONS = new RemoteVersion[] {
+	private static final RemoteVersion[] VERSIONS = new RemoteVersion[]{
 			new RemoteVersion("1", "1.0", false, null, false, null),
 			new RemoteVersion("2", "2.0", false, null, false, null),
 			new RemoteVersion("3", "3.0", false, null, false, null),
 			new RemoteVersion("3", "3.1", false, null, false, null)};
 
 	private Calendar cal = Calendar.getInstance();
-	private RemoteVersion RELEASED_VERSION = new RemoteVersion("3", "3.0", false, cal, true, null);
+	private RemoteVersion RELEASED_VERSION = new RemoteVersion("3", "3.0",
+			false, cal, true, null);
 	private ReleaseVersionMojo jiraVersionMojo;
 	private JiraSoapService jiraStub;
 
@@ -49,7 +51,7 @@ public class ReleaseVersionMojoTest {
 		this.jiraVersionMojo = new ReleaseVersionMojo();
 		jiraVersionMojo.jiraUser = "user";
 		jiraVersionMojo.jiraPassword = "password";
-		
+
 		// This removes the locator coupling
 		jiraStub = EasyMock.createStrictMock(JiraSoapService.class);
 		this.jiraVersionMojo.jiraService = jiraStub;
@@ -97,15 +99,16 @@ public class ReleaseVersionMojoTest {
 
 	@Test
 	public void testLatestVersionInfo() throws Exception {
-		jiraVersionMojo.remoteVersionComparator =  new RemoteVersionComparator();
+		jiraVersionMojo.remoteVersionComparator = new RemoteVersionComparator();
 		String expected = "3.1";
 		String actual = jiraVersionMojo.calculateLatestReleaseVersion(VERSIONS);
 		assertEquals(expected, actual);
 	}
-	
+
 	@Test
 	public void testDiscoverWithProjectKey() throws Exception {
-		String expected = "http://www.trt12.jus.br/jira"+AbstractJiraMojo.JIRA_SOAP_SUFFIX;
+		String expected = "http://www.trt12.jus.br/jira"
+				+ AbstractJiraMojo.JIRA_SOAP_SUFFIX;
 		jiraVersionMojo.jiraURL = "http://www.trt12.jus.br/jira/browse/FERIAS";
 		String actual = jiraVersionMojo.discoverJiraWSURL();
 		assertEquals(expected, actual);
@@ -115,7 +118,8 @@ public class ReleaseVersionMojoTest {
 	@Test
 	public void testDiscoverWithoutProjectKey() throws Exception {
 		jiraVersionMojo.jiraProjectKey = "FERIAS";
-		String expected = "http://www.trt12.jus.br/jira"+AbstractJiraMojo.JIRA_SOAP_SUFFIX;
+		String expected = "http://www.trt12.jus.br/jira"
+				+ AbstractJiraMojo.JIRA_SOAP_SUFFIX;
 		jiraVersionMojo.jiraURL = "http://www.trt12.jus.br/jira";
 		String actual = jiraVersionMojo.discoverJiraWSURL();
 		assertEquals(expected, actual);
@@ -129,15 +133,18 @@ public class ReleaseVersionMojoTest {
 		// Chama o login
 		doLoginBehavior();
 		// Chama o getVersions
-		expect(jiraStub.getVersions(LOGIN_TOKEN, jiraVersionMojo.jiraProjectKey)).andReturn(
-				VERSIONS).once();
+		expect(
+				jiraStub.getVersions(LOGIN_TOKEN,
+						jiraVersionMojo.jiraProjectKey)).andReturn(VERSIONS)
+				.once();
 
 		// Chama o releaseVersion
 		EasyMock.reportMatcher(new Equals(LOGIN_TOKEN));
 		EasyMock.reportMatcher(new Equals(jiraVersionMojo.jiraProjectKey));
 		// Tem que fazer assim porque o equals compara com Calendar
 		EasyMock.reportMatcher(new RemoteVersionMatcher(RELEASED_VERSION));
-		jiraStub.releaseVersion(LOGIN_TOKEN, jiraVersionMojo.jiraProjectKey, RELEASED_VERSION);
+		jiraStub.releaseVersion(LOGIN_TOKEN, jiraVersionMojo.jiraProjectKey,
+				RELEASED_VERSION);
 		expectLastCall();
 		// Faz logout
 		doLogoutBehavior();
@@ -149,11 +156,11 @@ public class ReleaseVersionMojoTest {
 
 	/**
 	 * Set up logout mock behavior
+	 * 
 	 * @throws RemoteException
 	 */
 	private void doLogoutBehavior() throws RemoteException {
-		expect(jiraStub.logout(LOGIN_TOKEN)).andReturn(Boolean.TRUE)
-				.once();
+		expect(jiraStub.logout(LOGIN_TOKEN)).andReturn(Boolean.TRUE).once();
 	}
 
 	/**
@@ -162,30 +169,29 @@ public class ReleaseVersionMojoTest {
 	private void doLoginBehavior() throws RemoteException,
 			RemoteAuthenticationException,
 			com.atlassian.jira.rpc.soap.client.RemoteException {
-		expect(jiraStub.login("user", "password")).andReturn(
-				LOGIN_TOKEN).once();
+		expect(jiraStub.login("user", "password")).andReturn(LOGIN_TOKEN)
+				.once();
 	}
-
 
 	@After
 	public void tearDown() {
 		this.jiraVersionMojo = null;
 	}
 
-	
 	private static class RemoteVersionMatcher extends ArrayEquals {
 
 		public RemoteVersionMatcher(Object obj) {
 			super(obj);
 		}
-		
+
 		@Override
 		public boolean matches(Object actual) {
 			if (actual instanceof RemoteVersion) {
-				return (RemoteVersionComparator.doComparison((RemoteVersion)getExpected(), (RemoteVersion)actual) == 0);
+				return (RemoteVersionComparator.doComparison(
+						(RemoteVersion) getExpected(), (RemoteVersion) actual) == 0);
 			}
 			return super.matches(actual);
 		}
-		
+
 	}
 }

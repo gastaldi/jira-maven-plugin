@@ -8,9 +8,11 @@
 package com.atlassian.jira.rpc.soap.client;
 
 public interface JiraSoapServiceService extends javax.xml.rpc.Service {
-    public java.lang.String getJirasoapserviceV2Address();
+	public java.lang.String getJirasoapserviceV2Address();
 
-    public com.atlassian.jira.rpc.soap.client.JiraSoapService getJirasoapserviceV2() throws javax.xml.rpc.ServiceException;
+	public com.atlassian.jira.rpc.soap.client.JiraSoapService getJirasoapserviceV2()
+			throws javax.xml.rpc.ServiceException;
 
-    public com.atlassian.jira.rpc.soap.client.JiraSoapService getJirasoapserviceV2(java.net.URL portAddress) throws javax.xml.rpc.ServiceException;
+	public com.atlassian.jira.rpc.soap.client.JiraSoapService getJirasoapserviceV2(
+			java.net.URL portAddress) throws javax.xml.rpc.ServiceException;
 }

@@ -46,7 +46,6 @@ public class ReleaseVersionMojo extends AbstractJiraMojo {
 	 */
 	Comparator<RemoteVersion> remoteVersionComparator = new RemoteVersionComparator();
 
-	
 	@Override
 	public void doExecute(JiraSoapService jiraService, String loginToken)
 			throws Exception {
@@ -54,7 +53,8 @@ public class ReleaseVersionMojo extends AbstractJiraMojo {
 		log.debug("Login Token returned: " + loginToken);
 		RemoteVersion[] versions = jiraService.getVersions(loginToken,
 				jiraProjectKey);
-		String thisReleaseVersion = (autoDiscoverLatestRelease) ? calculateLatestReleaseVersion(versions)
+		String thisReleaseVersion = (autoDiscoverLatestRelease)
+				? calculateLatestReleaseVersion(versions)
 				: releaseVersion;
 		if (thisReleaseVersion != null) {
 			log.info("Releasing Version " + this.releaseVersion);
@@ -62,7 +62,7 @@ public class ReleaseVersionMojo extends AbstractJiraMojo {
 					thisReleaseVersion);
 		}
 	}
-	
+
 	/**
 	 * Returns the latest unreleased version
 	 * 
@@ -122,8 +122,7 @@ public class ReleaseVersionMojo extends AbstractJiraMojo {
 		if (versions != null) {
 			for (RemoteVersion remoteReleasedVersion : versions) {
 				if (releaseVersion.equalsIgnoreCase(remoteReleasedVersion
-						.getName())
-						&& !remoteReleasedVersion.isReleased()) {
+						.getName()) && !remoteReleasedVersion.isReleased()) {
 					// Mark as released
 					remoteReleasedVersion.setReleased(true);
 					remoteReleasedVersion

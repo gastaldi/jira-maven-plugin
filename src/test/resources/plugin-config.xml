@@ -9,10 +9,10 @@
 		<plugins>
 			<plugin>
 				<groupId>com.george.app</groupId>
-				<artifactId>maven-jira-plugin</artifactId>
+				<artifactId>jira-maven-plugin</artifactId>
 				<configuration>
 					<!-- ID do <server> no settings.xml -->
-					<settingsKey>elosoft-jira</settingsKey>
+					<settingsKey>my-jira-settings</settingsKey>
 				</configuration>
 				<executions>
 					<execution>
@@ -33,10 +33,10 @@
 				<plugins>
 					<plugin>
 						<groupId>com.george.app</groupId>
-						<artifactId>maven-jira-plugin</artifactId>
+						<artifactId>jira-maven-plugin</artifactId>
 						<configuration>
 							<!-- ID do <server> no settings.xml -->
-							<settingsKey>elosoft-jira</settingsKey>
+							<settingsKey>my-jira-settings</settingsKey>
 						</configuration>
 						<executions>
 							<execution>

@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.rmi.RemoteException;
 
 import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.wagon.util.IoUtils;
 
 import com.atlassian.jira.rpc.soap.client.JiraSoapService;
 import com.atlassian.jira.rpc.soap.client.RemoteIssue;
@@ -29,8 +28,7 @@ import com.atlassian.jira.rpc.soap.client.RemoteIssue;
 public class GenerateReleaseNotesMojo extends AbstractJiraMojo {
 
 	/**
-	 * JQL Template to generate release notes. 
-	 * Parameter 0 = Project Key
+	 * JQL Template to generate release notes. Parameter 0 = Project Key
 	 * Parameter 1 = Fix version
 	 * 
 	 * @parameter expression="${jqlTemplate}"
@@ -39,9 +37,8 @@ public class GenerateReleaseNotesMojo extends AbstractJiraMojo {
 	String jqlTemplate = "project = ''{0}'' AND status in (Resolved, Closed) AND fixVersion = ''{1}''";
 
 	/**
-	 * Template used on each issue found by JQL Template. 
-	 * Parameter 0 = Issue Key
-	 * Parameter 1 = Issue Summary
+	 * Template used on each issue found by JQL Template. Parameter 0 = Issue
+	 * Key Parameter 1 = Issue Summary
 	 * 
 	 * @parameter expression="${issueTemplate}"
 	 * @required
@@ -74,21 +71,20 @@ public class GenerateReleaseNotesMojo extends AbstractJiraMojo {
 	 */
 	File targetFile;
 
-	
 	/**
 	 * Text to be appended BEFORE all issues details.
 	 * 
 	 * @parameter expression="${beforeText}"
 	 */
 	String beforeText;
-	
+
 	/**
 	 * Text to be appended AFTER all issues details.
 	 * 
 	 * @parameter expression="${afterText}"
 	 */
 	String afterText;
-	
+
 	@Override
 	public void doExecute(JiraSoapService jiraService, String loginToken)
 			throws Exception {
@@ -113,7 +109,8 @@ public class GenerateReleaseNotesMojo extends AbstractJiraMojo {
 		if (log.isInfoEnabled()) {
 			log.info("JQL: " + jql);
 		}
-		RemoteIssue[] issues = jiraService.getIssuesFromJqlSearch(loginToken,jql, maxIssues);
+		RemoteIssue[] issues = jiraService.getIssuesFromJqlSearch(loginToken,
+				jql, maxIssues);
 		if (log.isInfoEnabled()) {
 			log.info("Issues: " + issues.length);
 		}
@@ -135,14 +132,16 @@ public class GenerateReleaseNotesMojo extends AbstractJiraMojo {
 			log.warn("No issues found. File will not be generated.");
 			return;
 		}
-		OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(targetFile,true), "Cp1252");
+		OutputStreamWriter writer = new OutputStreamWriter(
+				new FileOutputStream(targetFile, true), "Cp1252");
 		PrintWriter ps = new PrintWriter(writer);
 		try {
 			if (beforeText != null) {
 				ps.println(beforeText);
 			}
 			for (RemoteIssue issue : issues) {
-				String issueDesc = format(issueTemplate,issue.getKey(),issue.getSummary());
+				String issueDesc = format(issueTemplate, issue.getKey(),
+						issue.getSummary());
 				ps.println(issueDesc);
 			}
 			if (afterText != null) {
@@ -150,22 +149,26 @@ public class GenerateReleaseNotesMojo extends AbstractJiraMojo {
 			}
 		} finally {
 			ps.flush();
-			IoUtils.close(ps);
+			ps.close();
 		}
 	}
 
 	public void setAfterText(String afterText) {
 		this.afterText = afterText;
 	}
+
 	public void setBeforeText(String beforeText) {
 		this.beforeText = beforeText;
 	}
+
 	public void setReleaseVersion(String releaseVersion) {
 		this.releaseVersion = releaseVersion;
 	}
+
 	public void setIssueTemplate(String issueTemplate) {
 		this.issueTemplate = issueTemplate;
 	}
+
 	public void setJqlTemplate(String jqlTemplate) {
 		this.jqlTemplate = jqlTemplate;
 	}
