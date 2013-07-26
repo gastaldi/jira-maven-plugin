@@ -51,8 +51,8 @@ Add the following profile to be executed when released:
 		    <plugins>
 			    <plugin>
 				    <groupId>com.george.app</groupId>
-				    <artifactId>maven-jira-plugin</artifactId>
-				    <version>1.1</version>
+				    <artifactId>jira-maven-plugin</artifactId>
+				    <version>1.2</version>
 				    <inherited>false</inherited>
 				    <configuration>
 					    <!- <server> entry in settings.xml -->
@@ -80,8 +80,8 @@ Place it on your pom.xml:
 
     <plugin>
 	    <groupId>com.george.app</groupId>
-	    <artifactId>maven-jira-plugin</artifactId>
-	    <version>1.1</version>
+	    <artifactId>jira-maven-plugin</artifactId>
+	    <version>1.2</version>
 	    <inherited>false</inherited>
 	    <configuration>
 		    <!- <server> entry in settings.xml -->
