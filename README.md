@@ -1,7 +1,7 @@
 Maven JIRA Plugin
 =================
 
-The initial code and older versions was originally placed in http://code.google.com/p/jira-maven-plugins/.
+The initial code and older versions were originally placed in http://code.google.com/p/jira-maven-plugins/.
 
 This Maven plugin allows performing of JIRA common actions, like releasing a version, create a new version and generate the release notes:
 
