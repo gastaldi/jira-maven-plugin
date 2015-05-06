@@ -1,4 +1,4 @@
-package com.george.plugins.jira;
+package com.github.gastaldi.jira;
 
 import static java.text.MessageFormat.format;
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.george.plugins.jira;
+package com.github.gastaldi.jira;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
@@ -21,6 +21,9 @@ import org.junit.Test;
 import com.atlassian.jira.rpc.soap.client.JiraSoapService;
 import com.atlassian.jira.rpc.soap.client.RemoteAuthenticationException;
 import com.atlassian.jira.rpc.soap.client.RemoteVersion;
+import com.github.gastaldi.jira.AbstractJiraMojo;
+import com.github.gastaldi.jira.ReleaseVersionMojo;
+import com.github.gastaldi.jira.RemoteVersionComparator;
 
 /**
  * JUnit test case for Jira version MOJO
@@ -59,7 +62,7 @@ public class ReleaseVersionMojoTest {
 
 	/**
 	 * Test method for
-	 * {@link com.george.plugins.jira.ReleaseVersionMojo#discoverJiraWSURL()}.
+	 * {@link com.github.gastaldi.jira.ReleaseVersionMojo#discoverJiraWSURL()}.
 	 */
 	@Test
 	public void testDiscoverJiraWSURL() {
@@ -73,7 +76,7 @@ public class ReleaseVersionMojoTest {
 
 	/**
 	 * Test method for
-	 * {@link com.george.plugins.jira.ReleaseVersionMojo#isVersionAlreadyPresent()}
+	 * {@link com.github.gastaldi.jira.ReleaseVersionMojo#isVersionAlreadyPresent()}
 	 * .
 	 */
 	@Test
@@ -86,7 +89,7 @@ public class ReleaseVersionMojoTest {
 
 	/**
 	 * Test method for
-	 * {@link com.george.plugins.jira.ReleaseVersionMojo#isVersionAlreadyPresent()}
+	 * {@link com.github.gastaldi.jira.ReleaseVersionMojo#isVersionAlreadyPresent()}
 	 * .
 	 */
 	@Test

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.george.plugins.jira;
+package com.github.gastaldi.jira;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -16,6 +16,8 @@ import org.junit.Test;
 import com.atlassian.jira.rpc.soap.client.JiraSoapService;
 import com.atlassian.jira.rpc.soap.client.RemoteAuthenticationException;
 import com.atlassian.jira.rpc.soap.client.RemoteVersion;
+import com.github.gastaldi.jira.CreateNewVersionMojo;
+import com.github.gastaldi.jira.ReleaseVersionMojo;
 
 /**
  * JUnit test case for Jira version MOJO

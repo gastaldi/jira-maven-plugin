@@ -1,4 +1,4 @@
-package com.george.plugins.jira;
+package com.github.gastaldi.jira;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 
